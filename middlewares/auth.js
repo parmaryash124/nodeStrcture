@@ -10,10 +10,11 @@ const auth = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const { email, phoneNumber } = await JwtService.verify(token);
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({
+      accessToken: { $elemMatch: { $eq: token } },
+    });
     if (!user || user.accessToken == "")
       return next(CustomErrorHandler.unAuthorized());
-
     req.user = user;
     next();
   } catch (err) {
