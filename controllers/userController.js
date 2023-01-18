@@ -10,7 +10,9 @@ const userController = {
   },
 
   async Register(req, res, next) {
-    // validate the body
+    // validate the body`
+
+    console.log(req.file, "file");
     const { error } = registerValidation.validate(req.body);
     if (error) return next(error);
     try {
@@ -26,6 +28,7 @@ const userController = {
         //   { accessToken: access_token },
         //   { new: true }
         // );
+
         await Response(res, "User created successfully", user, 1);
       } else {
         res.json("something went wrong");
